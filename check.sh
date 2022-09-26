@@ -22,11 +22,14 @@ function check(){
 echo -n "Enter the project directory, default [.]: "
 
 read DIR
-echo -n "Enter users list, default [${USER}]: "
-read U
+echo -n "Enter users list: ${USER}, "
+read UL
 
 [ -z "$DIR" ] && DIR=$(dirname -- "$0")
+[ -z "$UL" ] && UL=$USER
 
+echo "--> $UL"
+exit()
 FILELIST=$(find ${DIR} -type f | grep -e '\.c' -e '\.cpp' -e '\.h' -e '\.hpp') 
 
 i=1
