@@ -1,4 +1,10 @@
+
 #!/bin/bash
+
+# ********************************************* #
+#    check.sh                                   #
+#    By: mboukhal <mboukhal@student.42.fr>      #
+# ********************************************* #
 
 function itemInList {
 
