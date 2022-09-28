@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 function itemInList {
 
 	local list="$1"
@@ -25,8 +24,12 @@ function check(){
 	Created=$(sed -n 8p $path | awk '{print $6}')
 	Updated=$(sed -n 9p $path | awk '{print $6}')
 
-	[[ -z "$by" || -z "$mail" || -z "$Created" || -z "$Updated" ]] && out+="\e[33m$path: [KO] No header!\n$result\e[0m\n" && return 1
-
+	if [[ -z "$by" || -z "$mail" || -z "$Created" || -z "$Updated" ]]
+	then
+		out+="\e[33m$path: [KO] No header!\n$result\e[0m\n"
+		return 1
+	fi
+	
 	itemInList "$list" "$by"
 	b=$?
 	itemInList "$list" "$mail"
@@ -37,19 +40,12 @@ function check(){
 	u=$?
 
 	result=""
-	# printf "\n$b\t$m\t$c\t$u\n"
 	((b)) && result="by: $by\n"
 	((m)) && result+="mail: $mail\n"
 	((c)) && result+="Created: $Created\n"
 	((u)) && result+="Updated: $Updated\n"
 
 	[[ -z "$result" ]] && printf "\e[32m$path: [OK]\e[0m\n" || out+="\e[31m$path: [KO]\n$result\e[0m\n"
-	# echo $result
-	# exit
-	# echo $by
-	# echo $mail
-	# echo $Created
-	# echo $Updated
 }
 
 out=""
@@ -60,11 +56,10 @@ read DIR
 
 [ -z "$DIR" ] && DIR=$(dirname -- "$0")
 
-UL=$USER
-echo -n "Enter developers list: ${UL},"
+echo -n "Enter developers list: ${USER},marvin,"
 read TT
 TT=$(echo $TT | tr ' ' ',')
-UL+=",marvin,${TT}"
+UL="$USER,marvin,${TT}"
 
 
 FILELIST=$(find ${DIR} -type f | grep -e '\.c$' -e '\.cpp$' -e '\.h$' -e '\.hpp$') 
