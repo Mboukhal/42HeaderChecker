@@ -67,7 +67,7 @@ TT=$(echo $TT | tr ' ' ',')
 UL="$USER,marvin,${TT}"
 
 
-FILELIST=$(find ${DIR} -type f | grep -e '\.c$' -e '\.cpp$' -e '\.h$' -e '\.hpp$') 
+FILELIST=$( find ${DIR} -type f | grep -e '\.c$' -e '\.h$' ) 
 
 i=1
 
